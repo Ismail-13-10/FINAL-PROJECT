@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Portal | Harbor Stay</title>
+    <link rel="preconnect" href="https://images.unsplash.com" />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <section class="login-screen" id="loginScreen" aria-labelledby="loginTitle">
+      <div class="login-art">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">H</span>
+          <div>
+            <strong>Harbor Stay</strong>
+            <span>Admin portal</span>
+          </div>
+        </div>
+        <div>
+          <span class="eyebrow">Admin Portal</span>
+          <h1 id="loginTitle">Sign in to manage bookings and service requests.</h1>
+        </div>
+      </div>
+
+      <div class="login-panel">
+        <form class="auth-form" id="loginForm">
+          <label>
+            Username
+            <input id="loginUsername" autocomplete="username" required />
+          </label>
+          <label>
+            Password
+            <input id="loginPassword" type="password" autocomplete="current-password" required />
+          </label>
+          <button class="primary-button" type="submit">Sign in</button>
+        </form>
+
+        <div class="demo-logins" aria-label="Demo login">
+          <span class="eyebrow">Demo account</span>
+          <button class="demo-login" id="adminDemoLogin" type="button">
+            <strong>Admin portal</strong>
+            <span>ISMAIL / ismail123</span>
+          </button>
+          <a class="text-link" href="../guest/index.html">Go to guest portal</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="app-shell hidden" id="appShell">
+      <aside class="sidebar" aria-label="Admin summary">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">H</span>
+          <div>
+            <strong>Harbor Stay</strong>
+            <span>Admin portal</span>
+          </div>
+        </div>
+
+        <section class="account-panel" aria-label="Signed in account">
+          <span class="eyebrow">Signed in</span>
+          <strong id="accountName"></strong>
+          <span>Administrator</span>
+          <button class="secondary-button" id="logoutButton" type="button">Log out</button>
+        </section>
+
+        <section class="today-panel" aria-label="Today summary">
+          <span class="eyebrow">Today</span>
+          <strong id="todayDate"></strong>
+          <div class="mini-stats">
+            <span><b id="activeBookingsCount">0</b> stays</span>
+            <span><b id="openRequestsCount">0</b> tasks</span>
+          </div>
+        </section>
+      </aside>
+
+      <main>
+        <section class="hero-band" aria-labelledby="pageTitle">
+          <div>
+            <span class="eyebrow">Admin Portal</span>
+            <h1 id="pageTitle">Manage active stays and room-service requests from a dedicated staff board.</h1>
+          </div>
+          <div class="hero-actions" aria-label="Quick actions">
+            <a class="secondary-button link-button" href="../guest/index.html">Guest portal</a>
+            <button class="secondary-button" id="seedDemo" type="button">Reset demo data</button>
+          </div>
+        </section>
+
+        <section class="view active" aria-label="Admin board">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">Staff operations</span>
+              <h2>Admin board</h2>
+            </div>
+            <div class="status-filter" role="group" aria-label="Request status filter">
+              <button class="chip active" data-filter="all" type="button">All</button>
+              <button class="chip" data-filter="new" type="button">New</button>
+              <button class="chip" data-filter="in_progress" type="button">In progress</button>
+              <button class="chip" data-filter="completed" type="button">Completed</button>
+            </div>
+          </div>
+
+          <div class="admin-metrics" aria-label="Hotel metrics">
+            <div>
+              <span>Occupancy</span>
+              <strong id="occupancyMetric">0%</strong>
+            </div>
+            <div>
+              <span>Revenue booked</span>
+              <strong id="revenueMetric">$0</strong>
+            </div>
+            <div>
+              <span>Open requests</span>
+              <strong id="taskMetric">0</strong>
+            </div>
+          </div>
+
+          <div class="workspace-grid">
+            <section class="work-panel" aria-labelledby="allBookingsTitle">
+              <div class="panel-heading">
+                <div>
+                  <span class="eyebrow">Bookings</span>
+                  <h2 id="allBookingsTitle">Active stays</h2>
+                </div>
+              </div>
+              <div class="admin-list" id="allBookings"></div>
+            </section>
+
+            <section class="work-panel" aria-labelledby="allRequestsTitle">
+              <div class="panel-heading">
+                <div>
+                  <span class="eyebrow">Fulfillment</span>
+                  <h2 id="allRequestsTitle">Service requests</h2>
+                </div>
+              </div>
+              <div class="admin-list" id="allRequests"></div>
+            </section>
+
+            <section class="work-panel" aria-labelledby="completedRequestsTitle">
+              <div class="panel-heading">
+                <div>
+                  <span class="eyebrow">Fulfillment</span>
+                  <h2 id="completedRequestsTitle">Completed requests</h2>
+                </div>
+              </div>
+              <div class="admin-list" id="completedRequests"></div>
+            </section>
+          </div>
+
+          <section class="work-panel" aria-labelledby="menuTitle">
+            <div class="panel-heading">
+              <div>
+                <span class="eyebrow">Menu management</span>
+                <h2 id="menuTitle">Guest menu</h2>
+              </div>
+            </div>
+
+            <form id="menuForm" class="menu-form">
+              <label>
+                Item name
+                <input id="menuName" required />
+              </label>
+              <label>
+                Description
+                <input id="menuDescription" required />
+              </label>
+              <label>
+                Price
+                <input id="menuPrice" type="number" min="0" step="1" required />
+              </label>
+              <label class="menu-checkbox">
+                <input id="menuAvailable" type="checkbox" checked />
+                <span>Available</span>
+              </label>
+              <div class="menu-form-actions">
+                <button class="primary-button" type="submit" id="menuSubmitButton">Add menu item</button>
+                <button class="secondary-button hidden" id="menuCancelEdit" type="button">Cancel edit</button>
+              </div>
+            </form>
+
+            <div class="menu-actions">
+              <button class="secondary-button" id="menuAllToggle" type="button">Mark all unavailable</button>
+              <button class="secondary-button" id="menuRemoveUnavailable" type="button">Remove unavailable items</button>
+            </div>
+            <div class="menu-list" id="menuList"></div>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="../shared.js"></script>
+    <script src="admin.js"></script>
+  </body>
+</html>

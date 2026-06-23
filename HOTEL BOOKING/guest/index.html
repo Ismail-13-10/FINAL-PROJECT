@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Guest Portal | Harbor Stay</title>
+    <link rel="preconnect" href="https://images.unsplash.com" />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <section class="login-screen" id="loginScreen" aria-labelledby="loginTitle">
+      <div class="login-art">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">H</span>
+          <div>
+            <strong>Harbor Stay</strong>
+            <span>Guest portal</span>
+          </div>
+        </div>
+        <div>
+          <span class="eyebrow">Guest Portal</span>
+          <h1 id="loginTitle">Sign in to book rooms and request service.</h1>
+        </div>
+      </div>
+
+      <div class="login-panel">
+        <div class="login-tabs" role="group" aria-label="Account mode">
+          <button class="chip active" id="loginModeButton" type="button">Sign in</button>
+          <button class="chip" id="registerModeButton" type="button">Create guest account</button>
+        </div>
+
+        <form class="auth-form" id="loginForm">
+          <label>
+            Username
+            <input id="loginUsername" autocomplete="username" required />
+          </label>
+          <label>
+            Password
+            <input id="loginPassword" type="password" autocomplete="current-password" required />
+          </label>
+          <button class="primary-button" type="submit">Sign in</button>
+        </form>
+
+        <form class="auth-form hidden" id="registerForm">
+          <label>
+            Full name
+            <input id="registerName" autocomplete="name" required />
+          </label>
+          <label>
+            Mobile number
+            <input id="registerMobile" type="tel" autocomplete="tel" placeholder="+1 555 123 4567" />
+          </label>
+          <label>
+            Username
+            <input id="registerUsername" autocomplete="username" required />
+          </label>
+          <label>
+            Password
+            <input id="registerPassword" type="password" autocomplete="new-password" minlength="4" required />
+          </label>
+          <button class="primary-button" type="submit">Create account</button>
+        </form>
+
+        <div class="demo-logins" aria-label="Demo login">
+          <span class="eyebrow">Demo account</span>
+          <button class="demo-login" id="guestDemoLogin" type="button">
+            <strong>Guest portal</strong>
+            <span>guest / guest123</span>
+          </button>
+          <a class="text-link" href="../admin/index.html">Go to admin portal</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="app-shell hidden" id="appShell">
+      <aside class="sidebar" aria-label="Guest summary">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">H</span>
+          <div>
+            <strong>Harbor Stay</strong>
+            <span>Guest portal</span>
+          </div>
+        </div>
+
+        <section class="account-panel" aria-label="Signed in account">
+          <span class="eyebrow">Signed in</span>
+          <strong id="accountName"></strong>
+          <span id="accountPhone"></span>
+          <span>Guest account</span>
+          <button class="secondary-button" id="logoutButton" type="button">Log out</button>
+        </section>
+
+        <section class="today-panel" aria-label="Today summary">
+          <span class="eyebrow">Today</span>
+          <strong id="todayDate"></strong>
+          <div class="mini-stats">
+            <span><b id="activeBookingsCount">0</b> stays</span>
+            <span><b id="openRequestsCount">0</b> tasks</span>
+          </div>
+        </section>
+      </aside>
+
+      <main>
+        <section class="hero-band" aria-labelledby="pageTitle">
+          <div>
+            <span class="eyebrow">Guest Portal</span>
+            <h1 id="pageTitle">Book rooms and request service from your private dashboard.</h1>
+          </div>
+          <div class="hero-actions" aria-label="Quick actions">
+            <a class="secondary-button link-button" href="../admin/index.html">Admin portal</a>
+            <button class="secondary-button" id="seedDemo" type="button">Reset demo data</button>
+          </div>
+        </section>
+
+        <section class="view active" aria-label="Guest portal">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">Guest booking</span>
+              <h2>Available rooms</h2>
+            </div>
+            <form class="date-filter" id="searchForm">
+              <label>
+                Check-in
+                <input id="checkIn" name="checkIn" type="date" required />
+              </label>
+              <label>
+                Check-out
+                <input id="checkOut" name="checkOut" type="date" required />
+              </label>
+              <button class="primary-button" type="submit">Search dates</button>
+            </form>
+          </div>
+
+          <div class="room-grid" id="roomGrid"></div>
+
+          <section class="work-panel" aria-labelledby="menuTitle">
+            <div class="panel-heading">
+              <div>
+                <span class="eyebrow">Room dining</span>
+                <h2 id="menuTitle">Menu available for order</h2>
+              </div>
+            </div>
+            <div class="menu-status" id="menuStatus"></div>
+            <div class="menu-grid" id="menuGrid"></div>
+          </section>
+
+          <div class="workspace-grid">
+            <section class="work-panel" aria-labelledby="guestBookingsTitle">
+              <div class="panel-heading">
+                <div>
+                  <span class="eyebrow">Room dashboard</span>
+                  <h2 id="guestBookingsTitle">My bookings</h2>
+                </div>
+              </div>
+              <div class="booking-list" id="myBookings"></div>
+            </section>
+
+            <section class="work-panel" aria-labelledby="serviceTitle">
+              <div class="panel-heading">
+                <div>
+                  <span class="eyebrow">Room service</span>
+                  <h2 id="serviceTitle">New request</h2>
+                </div>
+              </div>
+              <form id="requestForm" class="service-form">
+                <label>
+                  Booking
+                  <select id="requestBooking" required></select>
+                </label>
+                <label>
+                  Request type
+                  <select id="requestType" required>
+                    <option value="food_order">Meal order</option>
+                    <option value="maintenance">Maintenance</option>
+                    <option value="cleaning">Cleaning</option>
+                  </select>
+                </label>
+                <label>
+                  Details
+                  <textarea id="requestDescription" rows="4" placeholder="Example: Club sandwich, still water, and extra towels." required></textarea>
+                </label>
+                <button class="primary-button" type="submit">Send request</button>
+              </form>
+              <div class="panel-heading">
+                <div>
+                  <span class="eyebrow">Service history</span>
+                  <h2 id="myRequestsTitle">My requests</h2>
+                </div>
+              </div>
+              <div class="admin-list" id="myRequests"></div>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="../shared.js"></script>
+    <script src="guest.js"></script>
+  </body>
+</html>

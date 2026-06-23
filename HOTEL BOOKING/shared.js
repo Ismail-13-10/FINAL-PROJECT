@@ -1,0 +1,168 @@
+const HotelPortal = (() => {
+  const STORAGE_KEY = "hotel-portal-state-v2";
+  const LEGACY_STORAGE_KEY = "hotel-portal-state-v1";
+  const SESSION_KEY = "hotel-portal-session-v1";
+
+  const roomPhotos = [
+    "https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=900&q=80",
+    "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=900&q=80",
+    "https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=900&q=80",
+    "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=900&q=80",
+    "https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=900&q=80",
+    "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=900&q=80"
+  ];
+
+  const demoState = {
+    users: [
+      { id: 1, name: "SHAIK.ISMAIL", username: "ISMAIL", password: "ismail123", role: "admin" },
+      { id: 2, name: "N.VYSHNAVI LAKSHMI", username: "VYSHNAVI", password: "vyshu123", role: "admin" },
+      { id: 3, name: "D.NAGA SURYA", username: "NAGASURYA", password: "surya123", role: "admin" },
+      { id: 4, name: "CH.THANUDEEP", username: "THANUDEEP", password: "thanu123", role: "admin" },
+      { id: 5, name: "Guest User", username: "guest", password: "guest123", role: "guest" }
+    ],
+    rooms: [
+      { id: 1, number: "204", type: "City King", price: 148, amenities: ["King bed", "Desk", "City view"], photo: roomPhotos[0] },
+      { id: 2, number: "318", type: "Garden Double", price: 176, amenities: ["Two queens", "Balcony", "Breakfast"], photo: roomPhotos[1] },
+      { id: 3, number: "412", type: "Executive Suite", price: 264, amenities: ["Lounge", "Tub", "Late checkout"], photo: roomPhotos[2] },
+      { id: 4, number: "506", type: "Harbor Suite", price: 318, amenities: ["Sea view", "Mini bar", "Butler call"], photo: roomPhotos[3] },
+      { id: 5, number: "611", type: "Family Loft", price: 232, amenities: ["Sleeps four", "Kitchenette", "Sofa bed"], photo: roomPhotos[4] },
+      { id: 6, number: "720", type: "Penthouse", price: 480, amenities: ["Terrace", "Dining room", "Priority service"], photo: roomPhotos[5] }
+    ],
+    menu: [
+      { id: 1, name: "Club sandwich", description: "Turkey, bacon, lettuce, tomato, and house chips.", price: 16, available: true },
+      { id: 2, name: "Margherita pizza", description: "Hand-stretched crust, tomato, basil, and fresh mozzarella.", price: 18, available: true },
+      { id: 3, name: "Cheese omelet", description: "Three eggs, cheddar, and breakfast potatoes.", price: 13, available: true },
+      { id: 4, name: "Avocado toast", description: "Sourdough, smashed avocado, chili flakes, and lemon.", price: 12, available: true },
+      { id: 5, name: "Caesar salad", description: "Romaine, parmesan, croutons, and Caesar dressing.", price: 14, available: true },
+      { id: 6, name: "Tuna poke bowl", description: "Marinated tuna, rice, cucumber, avocado, and sesame.", price: 21, available: true },
+      { id: 7, name: "Lobster roll", description: "Warm lobster, lemon mayo, and buttery roll.", price: 28, available: true },
+      { id: 8, name: "Shrimp tacos", description: "Corn tortillas, spicy shrimp, slaw, and crema.", price: 17, available: true },
+      { id: 9, name: "Quinoa grain bowl", description: "Quinoa, roasted vegetables, feta, and lemon tahini.", price: 15, available: true },
+      { id: 10, name: "Beef burger", description: "Angus beef, cheddar, lettuce, tomato, and fries.", price: 19, available: true },
+      { id: 11, name: "Chicken parmesan", description: "Breaded chicken, marinara, mozzarella, and spaghetti.", price: 22, available: true },
+      { id: 12, name: "Seared salmon", description: "Herb butter salmon, roasted potatoes, and greens.", price: 26, available: true },
+      { id: 13, name: "Steak frites", description: "Grilled sirloin, garlic butter, and crisp fries.", price: 30, available: true },
+      { id: 14, name: "Mushroom risotto", description: "Creamy arborio rice with wild mushrooms and parmesan.", price: 20, available: true },
+      { id: 15, name: "Truffle fries", description: "Crispy fries, truffle oil, parmesan, and parsley.", price: 11, available: true },
+      { id: 16, name: "Breakfast burrito", description: "Eggs, chorizo, cheese, potatoes, and salsa verde.", price: 14, available: true },
+      { id: 17, name: "Spinach artichoke dip", description: "Warm dip with chips and toasted baguette.", price: 13, available: true },
+      { id: 18, name: "French onion soup", description: "Caramelized onion broth with melted gruyere.", price: 11, available: true },
+      { id: 19, name: "Pad thai", description: "Rice noodles with shrimp, peanuts, bean sprouts, and tamarind.", price: 19, available: true },
+      { id: 20, name: "Chicken tikka masala", description: "Creamy tomato curry with basmati rice and naan.", price: 22, available: true },
+      { id: 21, name: "Veggie lasagna", description: "Layers of pasta, ricotta, spinach, and tomato sauce.", price: 18, available: true },
+      { id: 22, name: "Sushi platter", description: "Assorted nigiri and rolls with soy, ginger, and wasabi.", price: 32, available: true },
+      { id: 23, name: "Chocolate lava cake", description: "Warm chocolate cake with a molten center and vanilla ice cream.", price: 12, available: true },
+      { id: 24, name: "Mango cheesecake", description: "Creamy cheesecake topped with fresh mango glaze.", price: 11, available: true },
+      { id: 25, name: "Espresso martini", description: "Vodka, espresso, and coffee liqueur with a crema finish.", price: 14, available: true }
+    ],
+    bookings: [
+      { id: 101, userId: 5, guest: "Guest User", roomId: 3, checkIn: "2026-06-22", checkOut: "2026-06-25", status: "confirmed" },
+      { id: 102, userId: 5, guest: "Guest User", roomId: 1, checkIn: "2026-06-24", checkOut: "2026-06-27", status: "confirmed" }
+    ],
+    requests: [
+      { id: 201, bookingId: 101, type: "food_order", description: "Paneer tikka, lime soda, and two plates.", status: "new", createdAt: "2026-06-22T09:20:00.000Z" },
+      { id: 202, bookingId: 102, type: "maintenance", description: "Air conditioner is cooling slowly.", status: "in_progress", createdAt: "2026-06-22T10:05:00.000Z" }
+    ]
+    ,
+    // Persist last search dates per guest user so their searches survive logout
+    lastSearchByUser: {}
+  };
+
+  function clone(value) {
+    return JSON.parse(JSON.stringify(value));
+  }
+
+  function migrateState(savedState) {
+    const migrated = { ...clone(demoState), ...savedState };
+    migrated.users = Array.isArray(savedState.users) ? savedState.users : clone(demoState.users);
+    migrated.menu = Array.isArray(savedState.menu) ? savedState.menu : clone(demoState.menu);
+    migrated.bookings = (savedState.bookings || []).map((booking) => {
+      if (booking.userId) return booking;
+      const user = migrated.users.find((item) => item.name === booking.guest && item.role === "guest");
+      return { ...booking, userId: user ? user.id : 1 };
+    });
+    return migrated;
+  }
+
+  function loadState() {
+    const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem(LEGACY_STORAGE_KEY);
+    if (!raw) return clone(demoState);
+
+    try {
+      return migrateState(JSON.parse(raw));
+    } catch {
+      return clone(demoState);
+    }
+  }
+
+  function saveState(state) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  function resetState() {
+    const state = clone(demoState);
+    saveState(state);
+    return state;
+  }
+
+  function getSessionUser(state) {
+    const userId = Number(localStorage.getItem(SESSION_KEY));
+    if (!userId) return null;
+    return state.users.find((user) => user.id === userId) || null;
+  }
+
+  function setSession(user) {
+    localStorage.setItem(SESSION_KEY, String(user.id));
+  }
+
+  function clearSession() {
+    localStorage.removeItem(SESSION_KEY);
+  }
+
+  function formatDate(dateString) {
+    return new Intl.DateTimeFormat("en", { month: "short", day: "numeric", year: "numeric" }).format(new Date(`${dateString}T00:00:00`));
+  }
+
+  function nightsBetween(checkIn, checkOut) {
+    const start = new Date(`${checkIn}T00:00:00`);
+    const end = new Date(`${checkOut}T00:00:00`);
+    return Math.max(0, Math.round((end - start) / 86400000));
+  }
+
+  function money(amount) {
+    return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(amount);
+  }
+
+  function datesOverlap(aStart, aEnd, bStart, bEnd) {
+    return aStart < bEnd && bStart < aEnd;
+  }
+
+  function isRoomAvailable(state, roomId, checkIn, checkOut) {
+    return !state.bookings.some((booking) => {
+      return booking.roomId === roomId && booking.status !== "cancelled" && datesOverlap(checkIn, checkOut, booking.checkIn, booking.checkOut);
+    });
+  }
+
+  function requestLabel(type) {
+    return {
+      food_order: "Meal order",
+      maintenance: "Maintenance",
+      cleaning: "Cleaning"
+    }[type] || type;
+  }
+
+  return {
+    clone,
+    loadState,
+    saveState,
+    resetState,
+    getSessionUser,
+    setSession,
+    clearSession,
+    formatDate,
+    nightsBetween,
+    money,
+    isRoomAvailable,
+    requestLabel
+  };
+})();

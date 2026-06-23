@@ -1,0 +1,13 @@
+{
+  "name": "hotel-portal",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node backend/server.js",
+    "start:mysql": "set DB_CLIENT=mysql&& node backend/server.js",
+    "check": "node --check backend/server.js && node --check shared.js && node --check guest/guest.js && node --check admin/admin.js"
+  },
+  "dependencies": {
+    "mysql2": "^3.11.5"
+  }
+}
